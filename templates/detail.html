@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جزئیات محصول - فروشگاه آنلاین</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tahoma', 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #3498db;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 0;
+            background-color: #ecf0f1;
+        }
+        
+        .breadcrumb ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        .breadcrumb ul li {
+            margin-left: 0.5rem;
+        }
+        
+        .breadcrumb ul li:not(:last-child)::after {
+            content: "\\";
+            margin-right: 0.5rem;
+        }
+        
+        .breadcrumb a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Product Detail Section */
+        .product-detail {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .product-gallery {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .main-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.3s;
+        }
+        
+        .thumbnail.active, .thumbnail:hover {
+            border-color: #3498db;
+        }
+        
+        .product-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .product-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .stars {
+            color: #f39c12;
+            margin-left: 0.5rem;
+        }
+        
+        .rating-count {
+            color: #7f8c8d;
+        }
+        
+        .product-price {
+            font-size: 1.8rem;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .product-description {
+            margin-bottom: 1.5rem;
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .product-options {
+            margin-bottom: 1.5rem;
+        }
+        
+        .option-group {
+            margin-bottom: 1rem;
+        }
+        
+        .option-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .option-select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .quantity-label {
+            margin-left: 1rem;
+            font-weight: bold;
+        }
+        
+        .quantity-input {
+            width: 70px;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: #3498db;
+            color: white;
+            flex: 2;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+        
+        .btn-secondary {
+            background: #e74c3c;
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-secondary:hover {
+            background: #c0392b;
+        }
+        
+        .btn-outline {
+            background: white;
+            color: #3498db;
+            border: 1px solid #3498db;
+            flex: 1;
+        }
+        
+        .btn-outline:hover {
+            background: #f8f9fa;
+        }
+        
+        /* Product Details Tabs */
+        .product-tabs {
+            margin-top: 2rem;
+        }
+        
+        .tabs-header {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .tab-btn.active {
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            right: 0;
+            width: 100%;
+            height: 3px;
+            background: #3498db;
+        }
+        
+        .tab-content {
+            padding: 1.5rem 0;
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .specs-table tr {
+            border-bottom: 1px solid #eee;
+        }
+        
+        .specs-table td {
+            padding: 0.8rem 0;
+        }
+        
+        .specs-table td:first-child {
+            font-weight: bold;
+            width: 30%;
+        }
+        
+        .reviews-list {
+            margin-top: 1rem;
+        }
+        
+        .review-item {
+            border-bottom: 1px solid #eee;
+            padding: 1rem 0;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .review-author {
+            font-weight: bold;
+        }
+        
+        .review-date {
+            color: #7f8c8d;
+        }
+        
+        /* Related Products */
+        .related-products {
+            margin: 3rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            color: #2c3e50;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .product-card .product-info {
+            padding: 1rem;
+        }
+        
+        .product-card .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-card .product-price {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #3498db;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 0.7rem;
+            }
+            
+            .product-container {
+                flex-direction: column;
+            }
+            
+            .tabs-header {
+                flex-wrap: wrap;
+            }
+            
+            .tab-btn {
+                flex: 1;
+                min-width: 120px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">فروشگاه آنلاین</div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">خانه</a></li>
+                        <li><a href="products.html">محصولات</a></li>
+                        <li><a href="about.html">درباره ما</a></li>
+                        <li><a href="contact.html">تماس با ما</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Product Detail Section -->
+    <div class="container">
+        <div class="product-detail">
+            <div class="product-container">
+                <div class="product-gallery">
+                    <img src="https://via.placeholder.com/600x500" alt="لپ تاپ ایسوس" class="main-image" id="mainImage">
+                    <div class="thumbnail-container">
+                        <img src="https://via.placeholder.com/600x500" alt="لپ تاپ ایسوس - نمای ۱" class="thumbnail active" data-image="https://via.placeholder.com/600x500">
+                        <img src="https://via.placeholder.com/600x500/3498db/ffffff" alt="لپ تاپ ایسوس - نمای ۲" class="thumbnail" data-image="https://via.placeholder.com/600x500/3498db/ffffff">
+                        <img src="https://via.placeholder.com/600x500/e74c3c/ffffff" alt="لپ تاپ ایسوس - نمای ۳" class="thumbnail" data-image="https://via.placeholder.com/600x500/e74c3c/ffffff">
+                        <img src="https://via.placeholder.com/600x500/2ecc71/ffffff" alt="لپ تاپ ایسوس - نمای ۴" class="thumbnail" data-image="https://via.placeholder.com/600x500/2ecc71/ffffff">
+                    </div>
+                </div>
+                
+                <div class="product-info">
+                    <h1 class="product-title">لپ تاپ ایسوس مدل VivoBook 15</h1>
+                    
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-count">(۴۵ نظر)</span>
+                    </div>
+                    
+                    <div class="product-price">۱۵,۰۰۰,۰۰۰ تومان</div>
+                    
+                    <p class="product-description">
+                        لپ تاپ ایسوس ویووبوک ۱۵ یک لپ تاپ سبک و قدرتمند با طراحی زیبا است که برای کارهای روزمره، تحصیل و سرگرمی ایده آل می باشد. این لپ تاپ مجهز به پردازنده Intel Core i7 نسل یازدهم، حافظه رم ۱۶ گیگابایت و حافظه SSD 512 گیگابایت است.
+                    </p>
+                    
+                    <div class="product-options">
+                        <div class="option-group">
+                            <label class="option-label">رنگ:</label>
+                            <select class="option-select">
+                                <option>مشکی</option>
+                                <option>نقره ای</option>
+                                <option>آبی</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label class="option-label">حافظه RAM:</label>
+                            <select class="option-select">
+                                <option>۸ گیگابایت</option>
+                                <option>۱۶ گیگابایت</option>
+                                <option>۳۲ گیگابایت</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label class="option-label">حافظه داخلی:</label>
+                            <select class="option-select">
+                                <option>۲۵۶ گیگابایت SSD</option>
+                                <option>۵۱۲ گیگابایت SSD</option>
+                                <option>۱ ترابایت SSD</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="quantity-selector">
+                        <label class="quantity-label">تعداد:</label>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary">افزودن به سبد خرید</button>
+                        <button class="btn btn-secondary">خرید الآن</button>
+                        <button class="btn btn-outline">افزودن به علاقه‌مندی‌ها</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Details Tabs -->
+            <div class="product-tabs">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-tab="description">توضیحات محصول</button>
+                    <button class="tab-btn" data-tab="specs">مشخصات فنی</button>
+                    <button class="tab-btn" data-tab="reviews">نظرات کاربران</button>
+                </div>
+                
+                <div class="tab-content active" id="description">
+                    <h3>لپ تاپ ایسوس ویووبوک ۱۵</h3>
+                    <p>
+                        لپ تاپ ایسوس ویووبوک ۱۵ با طراحی نازک و سبک خود، همراهی قابل اعتماد برای کار و تحصیل است. این لپ تاپ با صفحه نمایش ۱۵ اینچی Full HD، پردازنده قدرتمند Intel Core i7 و حافظه رم ۱۶ گیگابایتی، عملکردی روان و بدون وقفه را ارائه می دهد.
+                    </p>
+                    <p>
+                        صفحه نمایش نانو edge این لپ تاپ با قاب نازک، تجربه بصری immersize را برای کاربر فراهم می کند. صفحه کلید ارگونومیک با نور پس زمینه، تایپ در شرایط کم نور را آسان می کند. همچنین حسگر اثر انگشت تعبیه شده در صفحه تاچ پد، امنیت دستگاه را افزایش داده و ورود به سیستم را سریع و آسان می کند.
+                    </p>
+                    <ul>
+                        <li>پردازنده Intel Core i7 نسل یازدهم</li>
+                        <li>حافظه رم ۱۶ گیگابایت DDR4</li>
+                        <li>حافظه داخلی ۵۱۲ گیگابایت SSD</li>
+                        <li>صفحه نمایش ۱۵ اینچی Full HD</li>
+                        <li>کارت گرافیک Intel Iris Xe</li>
+                        <li>سیستم عامل Windows 11</li>
+                    </ul>
+                </div>
+                
+                <div class="tab-content" id="specs">
+                    <table class="specs-table">
+                        <tr>
+                            <td>برند</td>
+                            <td>ایسوس (ASUS)</td>
+                        </tr>
+                        <tr>
+                            <td>مدل</td>
+                            <td>VivoBook 15 X513EA</td>
+                        </tr>
+                        <tr>
+                            <td>پردازنده</td>
+                            <td>Intel Core i7-1165G7 up to 4.7GHz</td>
+                        </tr>
+                        <tr>
+                            <td>حافظه رم</td>
+                            <td>۱۶ گیگابایت DDR4</td>
+                        </tr>
+                        <tr>
+                            <td>حافظه داخلی</td>
+                            <td>۵۱۲ گیگابایت SSD M.2 NVMe</td>
+                        </tr>
+                        <tr>
+                            <td>صفحه نمایش</td>
+                            <td>۱۵.۶ اینچ Full HD (1920x1080) IPS</td>
+                        </tr>
+                        <tr>
+                            <td>کارت گرافیک</td>
+                            <td>Intel Iris Xe Graphics</td>
+                        </tr>
+                        <tr>
+                            <td>سیستم عامل</td>
+                            <td>Windows 11 Home</td>
+                        </tr>
+                        <tr>
+                            <td>باتری</td>
+                            <td>۳ سلولی ۴۲ وات ساعتی</td>
+                        </tr>
+                        <tr>
+                            <td>وزن</td>
+                            <td>۱.۸ کیلوگرم</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="tab-content" id="reviews">
+                    <div class="reviews-list">
+                        <div class="review-item">
+                            <div class="review-header">
+                                <span class="review-author">علیرضا محمدی</span>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <p>لپ تاپ بسیار عالی و سبکی هست. باتری نسبتا خوبی داره و برای کارهای روزمره کاملا مناسب هست. پیشنهاد میکنم.</p>
+                            <div class="review-date">۲ هفته پیش</div>
+                        </div>
+                        
+                        <div class="review-item">
+                            <div class="review-header">
+                                <span class="review-author">فاطمه کریمی</span>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                            <p>طراحی زیبا و نازکی داره اما صدای فن اون کمی اذیت کننده است وقتی که چند برنامه همزمان باز میکنم.</p>
+                            <div class="review-date">۱ ماه پیش</div>
+                        </div>
+                        
+                        <div class="review-item">
+                            <div class="review-header">
+                                <span class="review-author">محمد حسینی</span>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                            </div>
+                            <p>برای کارهای گرافیکی سبک مناسب هست اما برای رندرگیری های سنگین پیشنهاد نمیشه. به طور کلی راضی هستم.</p>
+                            <div class="review-date">۲ ماه پیش</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Related Products -->
+        <div class="related-products">
+            <h2 class="section-title">محصولات مرتبط</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/300x200" alt="لپ تاپ دل" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">لپ تاپ دل اینسپیرون</h3>
+                        <p class="product-price">۱۲,۵۰۰,۰۰۰ تومان</p>
+                        <a href="#" class="btn btn-outline">مشاهده جزئیات</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/300x200" alt="لپ تاپ لنوو" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">لپ تاپ لنوو ایپاد</h3>
+                        <p class="product-price">۱۴,۲۰۰,۰۰۰ تومان</p>
+                        <a href="#" class="btn btn-outline">مشاهده جزئیات</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/300x200" alt="لپ تاپ" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">لپ تاپ اچ پی پاویلیون</h3>
+                        <p class="product-price">۱۳,۸۰۰,۰۰۰ تومان</p>
+                        <a href="#" class="btn btn-outline">مشاهده جزئیات</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/300x200" alt="لپ تاپ اپل" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">لپ تاپ اپل مک بوک پرو</h3>
+                        <p class="product-price">۴۵,۰۰۰,۰۰۰ تومان</p>
+                        <a href="#" class="btn btn-outline">مشاهده جزئیات</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>درباره ما</h3>
+                    <p>فروشگاه آنلاین ما با بیش از ۱۰ سال سابقه در زمینه فروش محصولات الکترونیکی فعالیت می‌کند.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>لینک های مفید</h3>
+                    <ul>
+                        <li><a href="index.html">خانه</a></li>
+                        <li><a href="products.html">محصولات</a></li>
+                        <li><a href="about.html">درباره ما</a></li>
+                        <li><a href="contact.html">تماس با ما</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>تماس با ما</h3>
+                    <ul>
+                        <li>تلفن: ۰۲۱-۱۲۳۴۵۶۷۸</li>
+                        <li>ایمیل: info@example.com</li>
+                        <li>آدرس: تهران، خیابان ولیعصر</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>کلیه حقوق این وبسایت محفوظ است © ۱۴۰۳</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Product Gallery Thumbnail Switching
+        document.addEventListener('DOMContentLoaded', function() {
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const mainImage = document.getElementById('mainImage');
+            
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', function() {
+                    // Update main image
+                    mainImage.src = this.getAttribute('data-image');
+                    
+                    // Update active thumbnail
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Tab Switching
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update active tab content
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === tabId) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Quantity Selector
+            const quantityInput = document.querySelector('.quantity-input');
+            quantityInput.addEventListener('change', function() {
+                if (this.value < 1) {
+                    this.value = 1;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
