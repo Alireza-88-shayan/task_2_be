@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>جزئیات محصول - فروشگاه آنلاین</title>
@@ -513,68 +514,45 @@
         <div class="product-detail">
             <div class="product-container">
                 <div class="product-gallery">
-                    <img src="https://via.placeholder.com/600x500" alt="لپ تاپ ایسوس" class="main-image" id="mainImage">
-                    <div class="thumbnail-container">
-                        <img src="https://via.placeholder.com/600x500" alt="لپ تاپ ایسوس - نمای ۱" class="thumbnail active" data-image="https://via.placeholder.com/600x500">
-                        <img src="https://via.placeholder.com/600x500/3498db/ffffff" alt="لپ تاپ ایسوس - نمای ۲" class="thumbnail" data-image="https://via.placeholder.com/600x500/3498db/ffffff">
-                        <img src="https://via.placeholder.com/600x500/e74c3c/ffffff" alt="لپ تاپ ایسوس - نمای ۳" class="thumbnail" data-image="https://via.placeholder.com/600x500/e74c3c/ffffff">
-                        <img src="https://via.placeholder.com/600x500/2ecc71/ffffff" alt="لپ تاپ ایسوس - نمای ۴" class="thumbnail" data-image="https://via.placeholder.com/600x500/2ecc71/ffffff">
-                    </div>
-                </div>
-                
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="Product-{{ product.id }}" class="product-image"/>
+                    {% else %}
+                    <img src="{% static 'assets/images/store.png' %}" alt="Product-{{ product.id }}" class="product-image"/>
+                    {% endif %}
                 <div class="product-info">
-                    <h1 class="product-title">لپ تاپ ایسوس مدل VivoBook 15</h1>
-                    
+                    <h1 class="product-title">{{product.title}}</h1>
                     <div class="product-rating">
                         <div class="stars">
+                            {% for star in stars %}
                             <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
+                            {% endfor %}
+                            {% for e_star in e_stars %}
+                            <i class="far fa-star"></i>
+                            {% endfor %}
                         </div>
-                        <span class="rating-count">(۴۵ نظر)</span>
                     </div>
                     
-                    <div class="product-price">۱۵,۰۰۰,۰۰۰ تومان</div>
+                    <p class="product-price">{% if product.price != product.final_price %} {{ product.final_price }}تومان {% endif %}</p>
+                    <p class="price" style="{% if product.discount > 0  %} text-decoration: line-through; {% endif %}">{{ product.price }}تومان</p>
                     
-                    <p class="product-description">
-                        لپ تاپ ایسوس ویووبوک ۱۵ یک لپ تاپ سبک و قدرتمند با طراحی زیبا است که برای کارهای روزمره، تحصیل و سرگرمی ایده آل می باشد. این لپ تاپ مجهز به پردازنده Intel Core i7 نسل یازدهم، حافظه رم ۱۶ گیگابایت و حافظه SSD 512 گیگابایت است.
-                    </p>
+                    <p class="product-description">{{product.describtion}}</p>
                     
                     <div class="product-options">
                         <div class="option-group">
                             <label class="option-label">رنگ:</label>
                             <select class="option-select">
-                                <option>مشکی</option>
-                                <option>نقره ای</option>
-                                <option>آبی</option>
-                            </select>
+                                <option>{{ product.get_color_display }}</option>
+                                </select>
                         </div>
-                        
+
+                        {% for product_f in product.productFeatures.all %}
                         <div class="option-group">
-                            <label class="option-label">حافظه RAM:</label>
+                            <label class="option-label">{{product_f.title}}:</label>
                             <select class="option-select">
-                                <option>۸ گیگابایت</option>
-                                <option>۱۶ گیگابایت</option>
-                                <option>۳۲ گیگابایت</option>
+                                <option>{{ product_f.amount }}</option>
                             </select>
                         </div>
-                        
-                        <div class="option-group">
-                            <label class="option-label">حافظه داخلی:</label>
-                            <select class="option-select">
-                                <option>۲۵۶ گیگابایت SSD</option>
-                                <option>۵۱۲ گیگابایت SSD</option>
-                                <option>۱ ترابایت SSD</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="quantity-selector">
-                        <label class="quantity-label">تعداد:</label>
-                        <input type="number" class="quantity-input" value="1" min="1">
-                    </div>
+                        {% endfor %}
                     
                     <div class="action-buttons">
                         <button class="btn btn-primary">افزودن به سبد خرید</button>
@@ -593,114 +571,37 @@
                 </div>
                 
                 <div class="tab-content active" id="description">
-                    <h3>لپ تاپ ایسوس ویووبوک ۱۵</h3>
-                    <p>
-                        لپ تاپ ایسوس ویووبوک ۱۵ با طراحی نازک و سبک خود، همراهی قابل اعتماد برای کار و تحصیل است. این لپ تاپ با صفحه نمایش ۱۵ اینچی Full HD، پردازنده قدرتمند Intel Core i7 و حافظه رم ۱۶ گیگابایتی، عملکردی روان و بدون وقفه را ارائه می دهد.
-                    </p>
-                    <p>
-                        صفحه نمایش نانو edge این لپ تاپ با قاب نازک، تجربه بصری immersize را برای کاربر فراهم می کند. صفحه کلید ارگونومیک با نور پس زمینه، تایپ در شرایط کم نور را آسان می کند. همچنین حسگر اثر انگشت تعبیه شده در صفحه تاچ پد، امنیت دستگاه را افزایش داده و ورود به سیستم را سریع و آسان می کند.
-                    </p>
+                    <h3>{{product.title}}</h3>
+                    <p>{{product.describtion}}</p>
                     <ul>
-                        <li>پردازنده Intel Core i7 نسل یازدهم</li>
-                        <li>حافظه رم ۱۶ گیگابایت DDR4</li>
-                        <li>حافظه داخلی ۵۱۲ گیگابایت SSD</li>
-                        <li>صفحه نمایش ۱۵ اینچی Full HD</li>
-                        <li>کارت گرافیک Intel Iris Xe</li>
-                        <li>سیستم عامل Windows 11</li>
+                        {% for product_f in product.productFeatures.all %}
+                        <li>{{product_f.title}}:{{product_f.amount}}</li>
+                        {% endfor %}
                     </ul>
                 </div>
                 
                 <div class="tab-content" id="specs">
                     <table class="specs-table">
+                        {% for product_f in product.productFeatures.all %}
                         <tr>
-                            <td>برند</td>
-                            <td>ایسوس (ASUS)</td>
+                            <td>{{product_f.title}}</td>
+                            <td>{{product_f.amount}}</td>
                         </tr>
-                        <tr>
-                            <td>مدل</td>
-                            <td>VivoBook 15 X513EA</td>
-                        </tr>
-                        <tr>
-                            <td>پردازنده</td>
-                            <td>Intel Core i7-1165G7 up to 4.7GHz</td>
-                        </tr>
-                        <tr>
-                            <td>حافظه رم</td>
-                            <td>۱۶ گیگابایت DDR4</td>
-                        </tr>
-                        <tr>
-                            <td>حافظه داخلی</td>
-                            <td>۵۱۲ گیگابایت SSD M.2 NVMe</td>
-                        </tr>
-                        <tr>
-                            <td>صفحه نمایش</td>
-                            <td>۱۵.۶ اینچ Full HD (1920x1080) IPS</td>
-                        </tr>
-                        <tr>
-                            <td>کارت گرافیک</td>
-                            <td>Intel Iris Xe Graphics</td>
-                        </tr>
-                        <tr>
-                            <td>سیستم عامل</td>
-                            <td>Windows 11 Home</td>
-                        </tr>
-                        <tr>
-                            <td>باتری</td>
-                            <td>۳ سلولی ۴۲ وات ساعتی</td>
-                        </tr>
-                        <tr>
-                            <td>وزن</td>
-                            <td>۱.۸ کیلوگرم</td>
-                        </tr>
+                        {% endfor %}
                     </table>
                 </div>
                 
                 <div class="tab-content" id="reviews">
                     <div class="reviews-list">
-                        <div class="review-item">
-                            <div class="review-header">
-                                <span class="review-author">علیرضا محمدی</span>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
+                        {% for comment in product.comments.all %}
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <span class="review-author">{{ comment.user }}</span>
                                 </div>
+                                <p>{{ comment.body }}</p>
+                                <div class="review-date">{{ comment.date }}</div>
                             </div>
-                            <p>لپ تاپ بسیار عالی و سبکی هست. باتری نسبتا خوبی داره و برای کارهای روزمره کاملا مناسب هست. پیشنهاد میکنم.</p>
-                            <div class="review-date">۲ هفته پیش</div>
-                        </div>
-                        
-                        <div class="review-item">
-                            <div class="review-header">
-                                <span class="review-author">فاطمه کریمی</span>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                            <p>طراحی زیبا و نازکی داره اما صدای فن اون کمی اذیت کننده است وقتی که چند برنامه همزمان باز میکنم.</p>
-                            <div class="review-date">۱ ماه پیش</div>
-                        </div>
-                        
-                        <div class="review-item">
-                            <div class="review-header">
-                                <span class="review-author">محمد حسینی</span>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                            <p>برای کارهای گرافیکی سبک مناسب هست اما برای رندرگیری های سنگین پیشنهاد نمیشه. به طور کلی راضی هستم.</p>
-                            <div class="review-date">۲ ماه پیش</div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -710,41 +611,21 @@
         <div class="related-products">
             <h2 class="section-title">محصولات مرتبط</h2>
             <div class="products-grid">
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/300x200" alt="لپ تاپ دل" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">لپ تاپ دل اینسپیرون</h3>
-                        <p class="product-price">۱۲,۵۰۰,۰۰۰ تومان</p>
-                        <a href="#" class="btn btn-outline">مشاهده جزئیات</a>
+                {% for s_product in similar_p %}
+                    <div class="product-card">
+                        {% if s_product.image %}
+                        <img src="{{ s_product.image.url }}" alt="Product-{{ s_product.id }}" class="product-image"/>
+                        {% else %}
+                        <img src="{% static 'assets/images/store.png' %}" alt="Product-{{ s_product.id }}" class="product-image"/>
+                        {% endif %}
+                        <div class="product-info">
+                            <h3 class="product-title">{{s_product.title}}</h3>
+                            <p class="product-price">{% if s_product.price != s_product.final_price %} {{ s_product.final_price }}تومان {% endif %}</p>
+                            <p class="price" style="{% if s_product.discount > 0  %} text-decoration: line-through; {% endif %}">{{ s_product.price }}تومان</p>
+                            <a href="#" class="btn btn-outline">مشاهده جزئیات</a>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/300x200" alt="لپ تاپ لنوو" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">لپ تاپ لنوو ایپاد</h3>
-                        <p class="product-price">۱۴,۲۰۰,۰۰۰ تومان</p>
-                        <a href="#" class="btn btn-outline">مشاهده جزئیات</a>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/300x200" alt="لپ تاپ" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">لپ تاپ اچ پی پاویلیون</h3>
-                        <p class="product-price">۱۳,۸۰۰,۰۰۰ تومان</p>
-                        <a href="#" class="btn btn-outline">مشاهده جزئیات</a>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/300x200" alt="لپ تاپ اپل" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">لپ تاپ اپل مک بوک پرو</h3>
-                        <p class="product-price">۴۵,۰۰۰,۰۰۰ تومان</p>
-                        <a href="#" class="btn btn-outline">مشاهده جزئیات</a>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

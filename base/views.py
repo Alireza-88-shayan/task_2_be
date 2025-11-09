@@ -22,6 +22,8 @@ def detail_page(request, pk):
     context = {
         'product':product,
         'similar_p':similar_product,
+        'stars':range(int(product.rate // 1)),
+        'e_stars':range(5 - int(product.rate // 1)),
     }
 
     return render(request, 'detail.html', context)

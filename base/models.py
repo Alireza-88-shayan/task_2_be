@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 from django_jalali.db import models as jmodels
 from django.contrib.auth.hashers import make_password
 
@@ -10,6 +10,8 @@ phone_validator = RegexValidator(
     regex=r'^\d+$',
     message="Phone number must contain only digits"
 )
+
+float_validator = [MinValueValidator(0.0), MaxValueValidator(5.0)]
 
 class Product(models.Model):
     # list of tuples
@@ -28,7 +30,7 @@ class Product(models.Model):
     category = models.ForeignKey("Category", on_delete=models.CASCADE, related_name='products', verbose_name="دسته بندی", null=True)
     color = models.CharField(max_length=1, choices=Color, verbose_name="رنگ", null=True)
     is_available = models.BooleanField(verbose_name="موجودی")
-    rate = models.FloatField(verbose_name="امتیاز", null=True)
+    rate = models.FloatField(validators=float_validator, verbose_name="امتیاز", null=True)
     discount = models.IntegerField(null=True, blank=True, verbose_name='تخفیف')
     
     class Meta:
@@ -47,8 +49,9 @@ class Product(models.Model):
     
 class ProductFeatures(models.Model):
     title = models.CharField(max_length=127, null=True, verbose_name='عنوان')
+    amount = models.CharField(max_length=127, null=True, verbose_name='مقدار')
     def __str__(self):
-        return self.title
+        return f"{self.title} {self.amount}"
     
     class Meta:
         verbose_name = 'ویژگی'
@@ -78,7 +81,7 @@ class Comment(models.Model):
     body = models.TextField(max_length=2047, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, related_name='comments')
     date = jmodels.jDateTimeField(null=True, verbose_name='تاریخ', blank=True)
-    rate = models.FloatField(verbose_name="امتیاز", null=True)
+    rate = models.FloatField(validators=float_validator, verbose_name="امتیاز", null=True)
 
     class Meta:
         verbose_name = 'نظر'
